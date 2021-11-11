@@ -5,6 +5,10 @@ A small linux command line utility to check the status of one or more servers ac
 It's like nmap but quicker to use!
 
 ## Building
+
+### Dependencies
+curl
+
 ```
 make
 bin/main
