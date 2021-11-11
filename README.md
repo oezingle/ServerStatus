@@ -3,7 +3,7 @@
 ## Building
 ```
 make
-./main
+bin/main
 ```
 
 ## TODOs:

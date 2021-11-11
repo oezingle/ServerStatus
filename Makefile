@@ -13,4 +13,4 @@ build:
 
 	gcc -c src/main.cpp -o bin/main.o
 
-	gcc bin/main.o -o main -Lbin/static -lcurl -lstdc++ -lping
+	gcc bin/main.o -o bin/main -Lbin/static -lcurl -lstdc++ -lping
