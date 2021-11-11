@@ -1,4 +1,8 @@
+# ServerStatus
 
+A small linux command line utility to check the status of one or more servers across common ports
+
+It's like nmap but quicker to use!
 
 ## Building
 ```
