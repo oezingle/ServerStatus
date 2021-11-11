@@ -1,6 +1,6 @@
-#include "ping.h"
+#include "ping.hpp"
 
-// TODO ping without port can't use curl -  https://stackoverflow.com/questions/13759760/how-to-know-if-a-server-is-online-or-not-if-we-only-know-the-ip
+// TODO ping without port can't use curl - learn sockets and icmp
 
 namespace ping
 {

@@ -8,6 +8,14 @@
 #include <vector>
 #include <algorithm>
 
+#include <fcntl.h>
+#include <errno.h>
+#include <sys/socket.h>
+#include <resolv.h>
+#include <netdb.h>
+#include <netinet/in.h>
+#include <netinet/ip_icmp.h>
+
 #define PING_PORTLIST std::vector<int>
 
 namespace ping
