@@ -11,7 +11,13 @@ int main(void)
     ping::add_port(&ports, 443);
     ping::add_port(&ports, 8000);
 
-    ping_it("localhost", &ports);
+    Server* serv = new Server("localhost", &ports);
+    
+    //serv->print();
+
+    delete serv;
+    
+    //ping_it("localhost", &ports);
     
     return 0;
 }
