@@ -12,8 +12,7 @@ int main(void)
     ping::add_port(&ports, 8000);
 
     ping_it("localhost", &ports);
-    ping_it("www.google.com", &ports);
-
+    
     return 0;
 }
 

@@ -36,16 +36,18 @@ namespace ping
      *
      * @param hostname the hostname to ping
      **/
-    sockaddr_in sockaddr_from_hostname(std::string hostname)
+    sockaddr_in sockaddr_from_hostname(std::string hostname, int port)
     {
-        if (hostname == "localhost") {
+        if (hostname == "localhost")
+        {
             hostname = "127.0.0.1";
         }
 
         sockaddr_in addr;
 
         addr.sin_family = AF_INET;
-        //addr.sin_port = htons(65432);
+
+        addr.sin_port = htons(port);
 
         inet_pton(AF_INET, hostname.c_str(), &addr.sin_addr);
 
@@ -54,12 +56,24 @@ namespace ping
         return addr;
     }
 
-    int throw_if_err (const int socket_operation) {
-        if (socket_operation < 0) {
+    int throw_if_err(const int socket_operation)
+    {
+        if (socket_operation < 0)
+        {
             throw std::exception();
         }
 
         return socket_operation;
+    }
+
+    /**
+     * socket_icmp but autofill port
+     * 
+     * @param hostname the hostname to ping 
+     **/
+    int socket_icmp(const std::string hostname)
+    {
+        return socket_icmp(hostname, 80);
     }
 
     /**
@@ -68,40 +82,46 @@ namespace ping
      * so using errno works fine enough
      *
      * @param hostname the hostname to ping
+     * @param port the port to ping
      **/
-    int socket_icmp(const std::string hostname)
+    int socket_icmp(const std::string hostname, const int port)
     {
         // It's called pingu not because it's gonna ping you, but because of little penguin
 
         // Socket descriptor or -1
         int pingu = socket(AF_INET, SOCK_STREAM, 0);
 
-        if (pingu < 0) {
+        if (pingu < 0)
+        {
             return ICMP_NO_PERMS;
         }
 
-        sockaddr_in addr = sockaddr_from_hostname(hostname);
+        sockaddr_in addr = sockaddr_from_hostname(hostname, port);
 
-        int connection_status = connect(pingu, (sockaddr*)&addr, sizeof(addr));
+        int connection_status = connect(pingu, (sockaddr *)&addr, sizeof(addr));
 
-        if (connection_status != -1) {
+        if (connection_status != -1)
+        {
             return ICMP_SUCCESS;
         }
 
-        switch (errno) {
-            case 111: {
-                return ICMP_SUCCESS;
-            }
-            
-            case 113: {
-                return ICMP_FAILED;
-            }
-
-            default: {
-                return ICMP_FAILED;
-            }
+        switch (errno)
+        {
+        case 111:
+        {
+            return ICMP_SUCCESS;
         }
 
+        case 113:
+        {
+            return ICMP_FAILED;
+        }
+
+        default:
+        {
+            return ICMP_FAILED;
+        }
+        }
     }
 
     /**

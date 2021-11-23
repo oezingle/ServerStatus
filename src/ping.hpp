@@ -36,6 +36,8 @@ namespace ping
     bool ping_port(std::string url, int port);
 
     int socket_icmp(const std::string hostname);
+    
+    int socket_icmp(const std::string hostname, const int port);
 
     enum icmp_status
     {
