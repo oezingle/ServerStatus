@@ -16,13 +16,33 @@
 #include <netinet/in.h>
 #include <netinet/ip_icmp.h>
 
-#define PING_PORTLIST std::vector<int>
+// most socket utils
+#include <sys/socket.h>
+
+// Socket address structs
+#include <sys/types.h>
+
+// hostname -> ip stuff
+#include <arpa/inet.h>
+
+#define ICMP_ECHO_PACKET_SIZE 64
 
 namespace ping
 {
+    typedef std::vector<int> portlist;
+
     CURLcode perform_curl(std::string url, int port);
 
     bool ping_port(std::string url, int port);
+
+    int socket_icmp(const std::string hostname);
+
+    enum icmp_status
+    {
+        ICMP_NO_PERMS = 0,
+        ICMP_SUCCESS,
+        ICMP_FAILED
+    };
 
     std::map<int, bool> ping_ports(std::string url, std::vector<int> *ports);
 

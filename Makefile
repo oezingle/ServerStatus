@@ -14,3 +14,5 @@ build:
 	gcc -c src/main.cpp -o bin/main.o
 
 	gcc bin/main.o -o bin/main -Lbin/static -lcurl -lstdc++ -lping
+
+	#setcap cap_net_raw+ep bin/main
