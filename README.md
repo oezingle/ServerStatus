@@ -2,8 +2,6 @@
 
 A small linux command line utility to check the status of one or more servers across common ports
 
-It's like nmap but quicker to use!
-
 ## Building
 ```
 make
@@ -11,7 +9,7 @@ bin/main
 ```
 
 ### Dependencies
-curl
+unix sockets (any linux has 'em)
 
 ## TODOs:
 - read url & port config
@@ -21,6 +19,6 @@ curl
     - two files:
         - ports (community defined)
         - urls (user defined)
-- ping w/out curl (src/ping/ping.cpp)
+- check for font color compatibility within linux terminals
 - python handler
 - boost::test or similar

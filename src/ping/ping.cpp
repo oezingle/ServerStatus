@@ -3,34 +3,6 @@
 namespace ping
 {
 
-    size_t noop_cb(void *ptr, size_t size, size_t nmemb, void *data)
-    {
-        return size * nmemb;
-    }
-
-    CURLcode perform_curl(const std::string url, const int port)
-    {
-        CURL *curl = curl_easy_init();
-
-        if (!curl)
-        {
-            throw std::bad_alloc();
-        }
-
-        // Set url, port
-        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-        curl_easy_setopt(curl, CURLOPT_PORT, port);
-
-        // Mute output
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, noop_cb);
-
-        CURLcode res = curl_easy_perform(curl);
-
-        curl_easy_cleanup(curl);
-
-        return res;
-    }
-
     /**
      * given a hostname, get a sendto() compatible sockaddr
      *
@@ -54,16 +26,6 @@ namespace ping
         //addr.sin_addr.s_addr = inet_addr(hostname.c_str());
 
         return addr;
-    }
-
-    int throw_if_err(const int socket_operation)
-    {
-        if (socket_operation < 0)
-        {
-            throw std::exception();
-        }
-
-        return socket_operation;
     }
 
     /**
@@ -102,9 +64,11 @@ namespace ping
 
         if (connection_status != -1)
         {
-            return ICMP_SUCCESS;
+            // This isn't awesome, let's be honest
+            return ICMP_SUCCESS | ICMP_PORT_OPEN;
         }
 
+        // I'm still not super stoked about this line
         switch (errno)
         {
         case 111:
@@ -114,7 +78,7 @@ namespace ping
 
         case 113:
         {
-            return ICMP_FAILED;
+            return 4;
         }
 
         default:
@@ -131,7 +95,7 @@ namespace ping
      **/
     bool ping_port(const std::string url, const int port)
     {
-        return perform_curl(url, port) != CURLE_COULDNT_CONNECT;
+        return socket_icmp(url, port) & ICMP_PORT_OPEN;
     }
 
     /**

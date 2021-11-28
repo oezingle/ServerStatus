@@ -18,4 +18,4 @@ build:
 	ar rsc bin/static/liboutputs.a bin/static/output/terminal.o bin/static/output/output.o
 
 	gcc -c src/main.cpp -o bin/main.o
-	gcc bin/main.o -o bin/main -Lbin/static -lcurl -lstdc++ -lping -loutputs
+	gcc bin/main.o -o bin/main -Lbin/static -lstdc++ -lping -loutputs
