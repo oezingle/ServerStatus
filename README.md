@@ -13,9 +13,7 @@ unix sockets (any linux has 'em)
 
 ## TODOs:
 - read url & port config
-    - **Library Options**
-        - https://github.com/nlohmann/json
-        - boost::json
+    - boost::json
     - two files:
         - ports (community defined)
         - urls (user defined)
