@@ -7,11 +7,11 @@ using namespace std;
 
 namespace output {
     // Variable for function pointer to display method
-    int(* _display)(vector<Server*> servers);
+    int(* _display)(vector<Server*>* servers);
 
     int display(vector<Server*> servers);
 
-    void setdisplay(int(* new_display)(vector<Server*> servers));
+    void setdisplay(int(* new_display)(vector<Server*>* servers));
 }
 
 #endif
