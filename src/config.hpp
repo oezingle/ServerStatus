@@ -32,7 +32,7 @@ inline char separator()
 
 namespace config
 {
-    inline std::string filename = CONFIG_DIR + separator() + std::string("config.json");
+    inline std::string filename = "";
 
     inline boost::json::object _json = {};
 

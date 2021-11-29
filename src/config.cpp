@@ -14,6 +14,8 @@ namespace json = boost::json;
  **/
 void config::defaults()
 {
+    config::filename = CONFIG_DIR + separator() + std::string("config.json");
+
     struct stat info;
 
     if (stat(CONFIG_DIR.c_str(), &info) != 0)
@@ -108,7 +110,8 @@ void config::insert_descriptions()
     {
         json::object index_object = user_ports.at(index).as_object();
 
-        if (index_object.find("description") == index_object.end()) continue;
+        if (index_object.find("description") == index_object.end())
+            continue;
 
         int port = index_object.at("port").as_int64();
         json::string description = index_object.at("description").as_string();
