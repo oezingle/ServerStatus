@@ -12,11 +12,9 @@ bin/main
 unix sockets (any linux has 'em)
 
 ## TODOs:
-- read url & port config
-    - boost::json
-    - two files:
-        - ports (community defined)
-        - urls (user defined)
 - check for font color compatibility within linux terminals
+- FXTUI output (hover for description?)
+- integrate src/ports.json in a 'smarter' way - .h file takes 'tons' of memory
+- async server pinging/printing
 - python handler
 - boost::test or similar

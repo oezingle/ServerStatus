@@ -4,18 +4,22 @@ using namespace std;
 
 int main(void)
 {
-    ping::portlist ports = ping::create_ports();
+    config::defaults();
+    
+    config::load();
 
-    ping::add_port(&ports, 22);
-    ping::add_port(&ports, 80);
-    ping::add_port(&ports, 443);
-    ping::add_port(&ports, 8000);
+    vector<int> ports = config::get_ports();
 
     ServerList server_list;
 
-    server_list.add(new Server("localhost", &ports));
+    for (const string hostname : config::get_hosts())
+    {
+        server_list.add(new Server(hostname, &ports));
+    }
 
-    terminal::display(server_list.getListPtr());
-    
+    output::setdisplay(terminal::display);
+
+    output::display(server_list.getListPtr());
+
     return 0;
 }

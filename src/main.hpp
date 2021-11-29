@@ -8,7 +8,7 @@
     #include "outputs/output.hpp"
     #include "outputs/terminal.hpp"
 
-    void ping_it(const std::string url, ping::portlist* ports);
+    #include "config.hpp"
 
     int main(void);
 #endif

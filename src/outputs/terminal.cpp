@@ -3,22 +3,29 @@
 using namespace std;
 using namespace terminal;
 
+/**
+ * Ping servers and display their information
+ * 
+ * @param servers pointer to a list of servers
+ * 
+ * @returns 0. nothing ever goes wrong. /s
+ **/
 int terminal::display(vector<Server *> *servers)
 {
     // Display the header
     uint16_t max_hostname_length = 0;
 
-    for (int i = 0; i < sizeof(servers) / sizeof(Server *); i++)
+    for (Server *server : *servers)
     {
-        Server *server = servers->at(i);
-
         uint16_t len = server->hostname.length();
 
-        if (len >= max_hostname_length)
+        if (len > max_hostname_length)
         {
-            max_hostname_length = len + 1;
+            max_hostname_length = len;
         }
     }
+
+    max_hostname_length++;
 
     TERMINAL_BOLD;
 
@@ -26,15 +33,9 @@ int terminal::display(vector<Server *> *servers)
 
     cout << "Up ";
 
-    Server *example_server = servers->at(0);
-
-    for (const auto &kv : example_server->open_ports)
+    for (const auto port : *servers->at(0)->ports)
     {
-        const int key = kv.first;
-
-        cout << key << " ";
-
-        //print_with_spaces(to_string(key), 6);
+        cout << port << " ";
     }
 
     TERMINAL_RESET;
@@ -44,13 +45,15 @@ int terminal::display(vector<Server *> *servers)
     // Print info for every server
     for (Server *server : *servers)
     {
-        //cout << server->hostname;
+        // cout << server->hostname;
 
         print_with_spaces(server->hostname, max_hostname_length);
 
+        server->ping();
+
 #ifdef TERMINAL_COLORS
         if (server->is_up)
-        {            
+        {
             TERMINAL_GREEN;
         }
         else
@@ -110,14 +113,30 @@ int terminal::display(vector<Server *> *servers)
         cout << "\n";
     }
 
+    if (config::use_descriptions())
+    {
+        TERMINAL_BOLD;
+
+        cout << "\nPort  Description\n";
+
+        TERMINAL_RESET;
+
+        for (const auto port : *servers->at(0)->ports)
+        {
+            print_with_spaces(to_string(port), 6);
+
+            cout << config::get_description(port) << "\n";
+        }
+    }
+
     return 0;
 }
 
 /**
  * Count how many digits there are in a number
- * 
+ *
  * @param num the number to count digits
- * 
+ *
  * @returns the number of digits in that number (dec)
  **/
 uint16_t terminal::digits(int num)
@@ -131,13 +150,13 @@ uint16_t terminal::digits(int num)
 }
 
 /**
- * Print a string with space padding on the right. 
- * Does not support unicode. If the string is longer than 
+ * Print a string with space padding on the right.
+ * Does not support unicode. If the string is longer than
  * spaces, it will run over.
- * 
+ *
  * @param str the string to print
  * @param spaces the width in total
- * 
+ *
  **/
 void terminal::print_with_spaces(const string str, int spaces)
 {

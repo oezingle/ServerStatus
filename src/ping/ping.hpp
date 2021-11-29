@@ -4,15 +4,6 @@
 #include <iostream>
 #include <map>
 #include <vector>
-#include <algorithm>
-
-#include <fcntl.h>
-#include <errno.h>
-#include <sys/socket.h>
-#include <resolv.h>
-#include <netdb.h>
-#include <netinet/in.h>
-#include <netinet/ip_icmp.h>
 
 // most socket utils
 #include <sys/socket.h>
@@ -31,9 +22,9 @@ namespace ping
 
     bool ping_port(std::string url, int port);
 
-    int socket_icmp(const std::string hostname);
+    bool socket_icmp_bool(const std::string hostname);
     
-    int socket_icmp(const std::string hostname, const int port);
+    int socket_icmp(const std::string hostname, const int port = 80);
 
     // I wanted to switch to #defines, but it breaks
     enum icmp_status
@@ -45,11 +36,5 @@ namespace ping
     };
 
     std::map<int, bool> ping_ports(std::string url, std::vector<int> *ports);
-
-    std::vector<int> create_ports(void);
-
-    void add_port(std::vector<int> ports, int new_port);
-
-    void add_port(std::vector<int>* ports, int new_port);
 }
 #endif

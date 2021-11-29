@@ -1,0 +1,15 @@
+{
+    "servers": [
+        "localhost"
+    ],
+    "descriptions": true,
+    "ports": [
+        {
+            "port": 80,
+            "description": "HTTP web server"
+        },
+        {
+            "port": 22
+        }
+    ]
+}

@@ -23,19 +23,19 @@ namespace ping
 
         inet_pton(AF_INET, hostname.c_str(), &addr.sin_addr);
 
-        //addr.sin_addr.s_addr = inet_addr(hostname.c_str());
+        // addr.sin_addr.s_addr = inet_addr(hostname.c_str());
 
         return addr;
     }
 
     /**
-     * socket_icmp but autofill port
-     * 
-     * @param hostname the hostname to ping 
+     * Return a boolean value for socket_icmp
+     *
+     * @param hostname the hostname to ping
      **/
-    int socket_icmp(const std::string hostname)
+    bool socket_icmp_bool(const std::string hostname)
     {
-        return socket_icmp(hostname, 80);
+        return (socket_icmp(hostname) & 1) == 1;
     }
 
     /**
@@ -46,7 +46,7 @@ namespace ping
      * @param hostname the hostname to ping
      * @param port the port to ping
      **/
-    int socket_icmp(const std::string hostname, const int port)
+    int socket_icmp(const std::string hostname, const int port = 80)
     {
         // It's called pingu not because it's gonna ping you, but because of little penguin
 
@@ -57,6 +57,18 @@ namespace ping
         {
             return ICMP_NO_PERMS;
         }
+
+        struct timeval timeout;
+        timeout.tv_sec = 1;
+        timeout.tv_usec = 0;
+
+        if (setsockopt(pingu, SOL_SOCKET, SO_RCVTIMEO, &timeout,
+                       sizeof timeout) < 0)
+            throw std::exception();
+
+        if (setsockopt(pingu, SOL_SOCKET, SO_SNDTIMEO, &timeout,
+                       sizeof timeout) < 0)
+            throw std::exception();
 
         sockaddr_in addr = sockaddr_from_hostname(hostname, port);
 
@@ -78,7 +90,7 @@ namespace ping
 
         case 113:
         {
-            return 4;
+            return ICMP_FAILED;
         }
 
         default:
@@ -112,24 +124,9 @@ namespace ping
         {
             // portmap[port] = ping_port(url, port);
 
-            portmap.insert(std::pair<int, bool>(port, ping_port(url, port)));
+            portmap.insert(std::pair(port, ping_port(url, port)));
         }
 
         return portmap;
-    }
-
-    /**
-     * I may be stupid
-     **/
-    std::vector<int> create_ports(void)
-    {
-        std::vector<int> v;
-
-        return v;
-    }
-
-    void add_port(std::vector<int> *ports, int new_port)
-    {
-        ports->push_back(new_port);
     }
 }

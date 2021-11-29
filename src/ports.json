@@ -1,0 +1,14 @@
+[
+    {
+        "port": 22,
+        "description": "SSH server"
+    },
+    {
+        "port": 80,
+        "description": "HTTP Web Server"
+    },
+    {
+        "port": 8006,
+        "description": "Proxmox Web UI"
+    }
+]

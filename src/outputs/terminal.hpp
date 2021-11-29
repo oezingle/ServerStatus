@@ -8,7 +8,7 @@
 
 #define TERMINAL_BOLD   printf("\e[1m")
 
-#define TERMINAL_RED    printf("\033[31m")
+#define TERMINAL_RED    printf("\e[31m")
 #define TERMINAL_GREEN  printf("\e[32m")
 
 #define TERMINAL_COLORS
@@ -16,10 +16,16 @@
 //#elif _WIN32
 // TODO terminal colors on windows
 #else
+#define TERMINAL_RESET
+#define TERMINAL_BOLD
+#define TERMINAL_RED
+#define TERMINAL_GREEN
+
 #warning "Terminal colors have not been implemented for your system"
 #endif
 
 #include "../ping/Server.hpp"
+#include "../config.hpp"
 
 namespace terminal
 {
