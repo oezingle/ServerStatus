@@ -7,7 +7,12 @@ build:
 
 	mkdir -p bin/static/ping/
 	mkdir -p bin/static/output/
+	
+	@if [ -d 'src/json' ]; then\
+		rm -r src/json; \
+	fi
 
+	mkdir -p src/json
 	
 	# ports.json -> remove whitespace -> array of chars
 	sed src/ports.json -z -e 's/\([^aA-zZ]\)\s*/\1/g' > src/json/port_defaults

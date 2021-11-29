@@ -46,7 +46,7 @@ namespace ping
      * @param hostname the hostname to ping
      * @param port the port to ping
      **/
-    int socket_icmp(const std::string hostname, const int port = 80)
+    int socket_icmp(const std::string hostname, const int port)
     {
         // It's called pingu not because it's gonna ping you, but because of little penguin
 
