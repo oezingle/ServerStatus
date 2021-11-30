@@ -125,7 +125,40 @@ void config::insert_descriptions()
  **/
 bool config::use_descriptions()
 {
-    return config::_json.at("descriptions").as_bool();
+    if (_json.find("descriptions") == _json.end()) {
+        // The user hasn't set a value for this key
+        return true;
+    }
+    return _json.at("descriptions").as_bool();
+}
+
+/**
+ * Allow async/threading?
+ **/
+bool config::use_async()
+{
+    if (_json.find("async") == _json.end()) {
+        // The user hasn't set a value for this key
+        return false;
+    }
+    return config::_json.at("async").as_bool();
+}
+
+/**
+ * Get the timeout for sockets.
+ **/
+int config::timeout () {    
+    if (_timeout != 0) {
+        return _timeout;
+    }
+
+    if (_json.find("timeout") == _json.end()) {
+        _timeout = 1000;
+    } else {
+        _timeout = _json.at("timeout").as_int64();
+    }
+
+    return _timeout;
 }
 
 /**

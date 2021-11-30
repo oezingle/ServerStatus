@@ -5,6 +5,9 @@
 #include <map>
 #include <vector>
 
+// config::timeout()
+#include "../config.hpp"
+
 // most socket utils
 #include <sys/socket.h>
 

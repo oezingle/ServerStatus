@@ -15,6 +15,6 @@ unix sockets (any linux has 'em)
 - check for font color compatibility within linux terminals
 - FXTUI output (hover for description?)
 - integrate src/ports.json in a 'smarter' way - .h file takes 'tons' of memory
-- async server pinging/printing
 - python handler
 - boost::test or similar
+- server aliases

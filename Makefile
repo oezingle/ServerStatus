@@ -28,7 +28,7 @@ build:
 	# Compile config & main, link libraries
 	gcc -c src/config.cpp -o bin/config.o
 	gcc -c src/main.cpp -o bin/main.o
-	gcc bin/main.o bin/config.o -o bin/main -Lbin/static -lstdc++ -lping -loutputs -lconfig -lboost_json
+	gcc bin/main.o bin/config.o -o bin/main -Lbin/static -lstdc++ -lping -loutputs -lconfig -lboost_json -lpthread
 
 json:
 	@if [ -d 'src/json' ]; then\

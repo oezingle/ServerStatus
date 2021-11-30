@@ -58,9 +58,12 @@ namespace ping
             return ICMP_NO_PERMS;
         }
 
+        unsigned int seconds = config::timeout() / 1000;
+
         struct timeval timeout;
-        timeout.tv_sec = 1;
-        timeout.tv_usec = 0;
+        timeout.tv_sec = seconds;
+        // TODO automatically configure based on network speed / NetworkManager API / using ethernet or wifi?
+        timeout.tv_usec = (config::timeout() * 1000) - (seconds * 1000);
 
         if (setsockopt(pingu, SOL_SOCKET, SO_RCVTIMEO, &timeout,
                        sizeof timeout) < 0)

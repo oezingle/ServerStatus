@@ -34,6 +34,9 @@ namespace config
 {
     inline std::string filename = "";
 
+    // Timeout for pings
+    inline int _timeout = 0;
+
     inline boost::json::object _json = {};
 
     inline std::map<int, std::string> _descriptions = {};
@@ -45,6 +48,10 @@ namespace config
     void defaults();
 
     bool use_descriptions();
+
+    bool use_async();
+
+    int timeout();
 
     std::vector<std::string> get_hosts();
 

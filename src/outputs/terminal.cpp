@@ -49,7 +49,7 @@ int terminal::display(vector<Server *> *servers)
 
         print_with_spaces(server->hostname, max_hostname_length);
 
-        server->ping();
+        //server->ping();
 
 #ifdef TERMINAL_COLORS
         if (server->is_up)

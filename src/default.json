@@ -2,7 +2,9 @@
     "servers": [
         "localhost"
     ],
+    "async": true,
     "descriptions": true,
+    "timeout": 1000,
     "ports": [
         {
             "port": 80,

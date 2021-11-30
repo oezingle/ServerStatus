@@ -17,9 +17,11 @@ int main(void)
         server_list.add(new Server(hostname, &ports));
     }
 
+    server_list.ping_all();
+
     output::setdisplay(terminal::display);
 
-    output::display(server_list.getListPtr());
+    output::display(server_list.get_list_ptr());
 
     return 0;
 }
