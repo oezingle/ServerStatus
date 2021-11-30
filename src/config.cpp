@@ -93,11 +93,6 @@ void config::insert_descriptions()
     {
         json::object obj = item.as_object();
 
-        // ! Doesn't work?
-        /*config::_descriptions.insert(pair(
-            (int)obj.at("port").as_int64(),
-            obj.at("description").as_string().c_str()));*/
-
         config::_descriptions.emplace(
             (int)obj.at("port").as_int64(),
             string(obj.at("description").as_string().c_str()));
@@ -125,7 +120,8 @@ void config::insert_descriptions()
  **/
 bool config::use_descriptions()
 {
-    if (_json.find("descriptions") == _json.end()) {
+    if (_json.find("descriptions") == _json.end())
+    {
         // The user hasn't set a value for this key
         return true;
     }
@@ -137,7 +133,8 @@ bool config::use_descriptions()
  **/
 bool config::use_async()
 {
-    if (_json.find("async") == _json.end()) {
+    if (_json.find("async") == _json.end())
+    {
         // The user hasn't set a value for this key
         return false;
     }
@@ -147,18 +144,20 @@ bool config::use_async()
 /**
  * Get the timeout for sockets.
  **/
-int config::timeout () {    
-    if (_timeout != 0) {
-        return _timeout;
+void config::set_timeout(uint *ptr)
+{
+    uint timeout = 0;
+
+    if (_json.find("timeout") == _json.end())
+    {
+        timeout = 1000;
+    }
+    else
+    {
+        timeout = _json.at("timeout").as_int64();
     }
 
-    if (_json.find("timeout") == _json.end()) {
-        _timeout = 1000;
-    } else {
-        _timeout = _json.at("timeout").as_int64();
-    }
-
-    return _timeout;
+    *ptr = timeout;
 }
 
 /**
@@ -179,11 +178,51 @@ vector<string> config::get_hosts()
 }
 
 /**
+ * Get the configured servers as a ServerList
+ **/
+ServerList config::get_servers(vector<int> *ports)
+{
+    ServerList server_list;
+
+    json::array server_array = config::_json.at("servers").as_array();
+
+    for (json::value item : server_array)
+    {
+        if (item.is_string())
+        {
+            json::string tmp_hostname = item.as_string();
+
+            string hostname(tmp_hostname.begin(), tmp_hostname.end());
+
+            server_list.add(new Server(hostname, ports));
+        }
+        else if (item.is_object())
+        {
+            json::object dict = item.as_object();
+
+            json::string tmp_hostname = dict.at("hostname").as_string();
+            json::string tmp_alias = dict.at("alias").as_string();
+
+            string hostname(tmp_hostname.begin(), tmp_hostname.end());
+            string alias(tmp_alias.begin(), tmp_alias.end());
+
+            server_list.add(new Server(hostname, alias, ports));
+        }
+        else
+        {
+            throw json::error();
+        }
+    }
+
+    return server_list;
+}
+
+/**
  * Get the configured port list
  **/
 vector<int> config::get_ports()
 {
-    vector<int> nums = {};
+    vector<int> nums;
 
     json::array ports_array = config::_json.at("ports").as_array();
 

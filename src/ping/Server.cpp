@@ -8,9 +8,22 @@ using namespace std;
  * @param hostname the string hostname
  * @param ports a std::vector of ports to ping
  **/
-Server::Server(const string hostname, ping::portlist *ports)
+Server::Server(const string hostname, vector<int> *ports) : Server(hostname, hostname, ports)
+{
+}
+
+/**
+ * Server constructor
+ * 
+ * @param hostname the string hostname
+ * @param alias the alias for the server
+ * @param ports a std::vector of ports to ping
+ **/
+Server::Server(const string hostname, const string alias, vector<int> *ports)
 {
     this->hostname = hostname;
+
+    this->alias = alias;
 
     this->ports = ports;
 }
@@ -33,7 +46,7 @@ void Server::ping()
         // The server's first ping said down, so we fill with falses
         for (int port : *this->ports)
         {
-            this->open_ports.insert(pair(port, false));
+            this->open_ports.emplace(port, false);
         }
     }
 }

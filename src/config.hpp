@@ -16,8 +16,14 @@
 // Standard(?) Filesystem utils, but requires C++17
 #include <filesystem>
 
+// xxd'd json files
 #include "json/config.h"
 #include "json/ports.h"
+
+// Forward declaration
+class ServerList;
+
+#include "ping/ServerList.hpp"
 
 #define CONFIG_DIR std::string("config")
 
@@ -34,9 +40,6 @@ namespace config
 {
     inline std::string filename = "";
 
-    // Timeout for pings
-    inline int _timeout = 0;
-
     inline boost::json::object _json = {};
 
     inline std::map<int, std::string> _descriptions = {};
@@ -51,9 +54,11 @@ namespace config
 
     bool use_async();
 
-    int timeout();
+    void set_timeout(uint *ptr);
 
     std::vector<std::string> get_hosts();
+
+    ServerList get_servers(std::vector<int> *ports);
 
     std::vector<int> get_ports();
 

@@ -1,6 +1,9 @@
 {
     "servers": [
-        "localhost"
+        {
+            "hostname": "127.0.0.1",
+            "alias": "Localhost"
+        }
     ],
     "async": true,
     "descriptions": true,

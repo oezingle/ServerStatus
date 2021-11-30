@@ -9,7 +9,9 @@ bin/main
 ```
 
 ### Dependencies
-unix sockets (any linux has 'em)
+- xxd
+- sed
+
 
 ## TODOs:
 - check for font color compatibility within linux terminals
@@ -17,4 +19,3 @@ unix sockets (any linux has 'em)
 - integrate src/ports.json in a 'smarter' way - .h file takes 'tons' of memory
 - python handler
 - boost::test or similar
-- server aliases

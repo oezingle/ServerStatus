@@ -17,7 +17,7 @@ int terminal::display(vector<Server *> *servers)
 
     for (Server *server : *servers)
     {
-        uint16_t len = server->hostname.length();
+        uint16_t len = server->alias.length();
 
         if (len > max_hostname_length)
         {
@@ -47,7 +47,7 @@ int terminal::display(vector<Server *> *servers)
     {
         // cout << server->hostname;
 
-        print_with_spaces(server->hostname, max_hostname_length);
+        print_with_spaces(server->alias, max_hostname_length);
 
         //server->ping();
 

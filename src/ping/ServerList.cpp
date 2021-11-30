@@ -1,5 +1,9 @@
 #include "ServerList.hpp"
 
+using namespace std;
+
+namespace json = boost::json;
+
 // This file really doesn't need to exist, but I wanted main.cpp to be super clean
 
 /**

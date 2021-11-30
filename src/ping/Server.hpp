@@ -1,5 +1,3 @@
-
-
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
@@ -7,7 +5,9 @@
 
 class Server {
     public:
-        Server(const std::string hostname, ping::portlist* ports);
+        Server(const std::string hostname, std::vector<int>* ports);
+
+        Server(const std::string hostname, const std::string alias, std::vector<int>* ports);
 
         void ping();
         
@@ -15,6 +15,7 @@ class Server {
         std::map<int, bool> open_ports;
         bool is_up;
         std::string hostname;
+        std::string alias;
 };
 
 #endif
