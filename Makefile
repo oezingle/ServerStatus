@@ -3,6 +3,11 @@ default:
 
 	make build
 
+install:
+	make json
+	
+	make build 
+
 dirs:
 	@if [ -d 'bin' ]; then \
 		rm -r bin; \
@@ -12,7 +17,7 @@ dirs:
 	mkdir -p bin/static/output/
 
 build:
-	make dirs 
+	make dirs
 
 	# Compile pinging utils
 	gcc -c src/ping/ping.cpp -o bin/static/ping/ping.o
@@ -25,10 +30,14 @@ build:
 	gcc -c src/outputs/terminal.cpp -o bin/static/output/terminal.o
 	ar rsc bin/static/liboutputs.a bin/static/output/terminal.o bin/static/output/output.o
 
+	#@if [[ $config_dir ]]; then \
+	#	config_flag := $(config_dir); \
+	#fi
+
 	# Compile config & main, link libraries
 	gcc -c src/config.cpp -o bin/config.o
 	gcc -c src/main.cpp -o bin/main.o
-	gcc bin/main.o bin/config.o -o bin/main -Lbin/static -lstdc++ -lping -loutputs -lconfig -lboost_json -lpthread
+	gcc bin/main.o bin/config.o -o bin/main -Lbin/static -lstdc++ -l:libping.a -l:liboutputs.a -l:libboost_json.a -lpthread
 
 json:
 	@if [ -d 'src/json' ]; then\

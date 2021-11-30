@@ -14,11 +14,11 @@ namespace json = boost::json;
  **/
 void config::defaults()
 {
-    config::filename = CONFIG_DIR + separator() + std::string("config.json");
+    config::filename = std::string(CONFIG_DIR) + separator() + std::string("config.json");
 
     struct stat info;
 
-    if (stat(CONFIG_DIR.c_str(), &info) != 0)
+    if (stat(CONFIG_DIR, &info) != 0)
     {
         // Create a new directory
         // requires C++17, consider a more historically minded option

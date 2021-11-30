@@ -25,7 +25,9 @@ class ServerList;
 
 #include "ping/ServerList.hpp"
 
-#define CONFIG_DIR std::string("config")
+#ifndef CONFIG_DIR
+#define CONFIG_DIR "config"
+#endif
 
 inline char separator()
 {

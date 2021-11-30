@@ -8,14 +8,14 @@ make
 bin/main
 ```
 
-### Dependencies
+### Dependencies (Building)
 - xxd
 - sed
-
 
 ## TODOs:
 - check for font color compatibility within linux terminals
 - FXTUI output (hover for description?)
-- integrate src/ports.json in a 'smarter' way - .h file takes 'tons' of memory
 - python handler
 - boost::test or similar
+- makefile -> make install -> make build w/ config_dir -> ~/.config/ServerStatus
+    - gcc -D<var> defines a macro while compiling
